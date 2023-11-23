@@ -284,7 +284,7 @@ class webservice_restful_server extends webservice_base_server {
         // Set some longer timeout, this script is not sending any output,
         // this means we need to manually extend the timeout operations
         // that need longer time to finish.
-        external_api::set_timeout();
+        \core_external\external_api::set_timeout();
 
         // Set up exception handler first, we want to sent them back in correct format that
         // the other system understands.
@@ -310,11 +310,10 @@ class webservice_restful_server extends webservice_base_server {
             )
         );
         $event = \core\event\webservice_function_called::create($params);
-        $event->set_legacy_logdata(array(SITEID, 'webservice', $this->functionname, '' , getremoteaddr() , 0, $this->userid));
         $event->trigger();
 
         // Do additional setup stuff.
-        $settings = external_settings::get_instance();
+        $settings = \core_external\external_settings::get_instance();
         if (method_exists($settings , 'get_lang')) {
 
             $sessionlang = $settings->get_lang();
@@ -354,7 +353,7 @@ class webservice_restful_server extends webservice_base_server {
         // Check that the returned values are valid.
         try {
             if ($this->function->returns_desc != null) {
-                $validatedvalues = external_api::clean_returnvalue($this->function->returns_desc, $this->returns);
+                $validatedvalues = \core_external\external_api::clean_returnvalue($this->function->returns_desc, $this->returns);
             } else {
                 $validatedvalues = null;
             }
