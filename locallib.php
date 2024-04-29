@@ -72,7 +72,7 @@ class webservice_restful_server extends webservice_base_server {
         $returnheaders = array();
 
         foreach ($headers as $key => $value) {
-            if (in_array($key, $capitalizearray)) {
+            if (in_array(strtoupper($key), array_map(fn($header) => strtoupper($header), $capitalizearray))) {
                 $header = 'HTTP_' . strtoupper($key);
                 $header = str_replace('-', '_', $header);
                 $returnheaders[$header] = $value;
